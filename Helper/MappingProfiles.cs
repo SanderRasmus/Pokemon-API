@@ -10,7 +10,10 @@ namespace Pokemon.Helper
 		{
 			CreateMap<Pokemons, PokemonDto>();
 			CreateMap<Kategori, KategoriDto>();
+			CreateMap<KategoriDto, Kategori>();
 			CreateMap<Land, LandDto>();
+			CreateMap<LandDto, Land>();
+			CreateMap<Eier, EierDto>();
 		}
 	}
 }

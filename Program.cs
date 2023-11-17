@@ -3,6 +3,7 @@ using Pokemon;
 using Pokemon.Data;
 using Pokemon.Interfaces;
 using Pokemon.Repository;
+using System.Text.Json.Serialization;
 using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,10 +12,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddTransient<Seed>();
+builder.Services.AddControllers().AddJsonOptions(x =>
+x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IPokemonRepository, PokemonRepository>();
 builder.Services.AddScoped<IKategoriRepository, KategoriRepository>();
 builder.Services.AddScoped<ILandRepository, LandRepository>();
+builder.Services.AddScoped<IEierRepository, EierRepository>();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

@@ -67,6 +67,39 @@ namespace Pokemon.Controllers
             return Ok(land);
         }
 
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateCountry([FromBody] LandDto landOpprett)
+        {
+            if (landOpprett == null)
+                return BadRequest(ModelState);
+
+            var land = _landRepository.GetLand()
+                .Where(c => c.Navn.Trim().ToUpper() == landOpprett.Navn.TrimEnd().ToUpper())
+                .FirstOrDefault();
+
+            if (land != null)
+            {
+                ModelState.AddModelError("", "Landet er allerede opprettet!");
+                return StatusCode(422, ModelState);
+
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var landMap = _mapper.Map<Land>(landOpprett);
+
+            if (!_landRepository.CreateCountry(landMap))
+            {
+                ModelState.AddModelError("", "Noe gikk galt under lagring");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Landet ble opprettet/lagret");
+        }
+
     }
 }
 

@@ -33,6 +33,19 @@ namespace Pokemon.Repository
         {
             return _context.PokemonKategorier.Where(e => e.KategoriId == categoryId).Select(c => c.Pokemon).ToList();
         }
+
+        public bool CreateCategory(Kategori kategori)
+        {
+            _context.Add(kategori);
+
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
     }
 }
 

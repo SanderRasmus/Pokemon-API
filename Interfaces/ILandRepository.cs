@@ -16,6 +16,10 @@ namespace Pokemon.Interfaces
 
 		bool CountryExists(int id);
 
-	}
+        bool CreateCountry(Land land);
+
+        bool Save();
+
+    }
 }
 

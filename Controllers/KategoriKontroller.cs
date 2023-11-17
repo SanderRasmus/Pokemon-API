@@ -66,6 +66,39 @@ namespace Pokemon.Controllers
             return Ok(pokemons);
 
         }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateCategory([FromBody] KategoriDto kategoriOpprett)
+        {
+            if (kategoriOpprett == null)
+                return BadRequest(ModelState);
+
+            var kategori = _kategoriRepository.GetCategories()
+                .Where(c => c.Navn.Trim().ToUpper() == kategoriOpprett.Navn.TrimEnd().ToUpper())
+                .FirstOrDefault();
+
+            if(kategori != null)
+            {
+                ModelState.AddModelError("", "Kategorien finnes allerede");
+                return StatusCode(422, ModelState);
+
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var kategoriMap = _mapper.Map<Kategori>(kategoriOpprett);
+
+            if(!_kategoriRepository.CreateCategory(kategoriMap))
+            {
+                ModelState.AddModelError("", "Noe gikk galt under lagring");
+                return StatusCode(500, ModelState);
+            }
+
+            return Ok("Kategorien ble opprettet");
+        }
     
     }
 }

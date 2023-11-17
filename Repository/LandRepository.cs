@@ -41,6 +41,19 @@ namespace Pokemon.Repository
         {
             return _context.Eiere.Where(c => c.Land.Id == landId).ToList();
         }
+
+        public bool CreateCountry(Land land)
+        {
+            _context.Add(land);
+
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
     }
 }
 

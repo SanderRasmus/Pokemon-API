@@ -13,6 +13,10 @@ namespace Pokemon.Interfaces
 		ICollection<Pokemons> GetPokemonByCategory(int categoryId);
 
 		bool CategoryExists(int id);
+
+		bool CreateCategory(Kategori kategori);
+
+		bool Save();
 	}
 }
 
