@@ -33,6 +33,19 @@ namespace Pokemon.Repository
         {
             return _context.Pokemon.Any(p => p.Id == pokeId);
         }
+
+        public bool CreatePokemon(Pokemons pokemon)
+        {
+            _context.Add(pokemon);
+
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
     }
 }
 

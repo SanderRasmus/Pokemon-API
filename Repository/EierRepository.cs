@@ -39,6 +39,19 @@ namespace Pokemon.Repository
         {
             return _context.Eiere.Any(o => o.Id == eierId);
         }
+
+        public bool CreateEier(Eier eier)
+        {
+            _context.Add(eier);
+
+            return Save();
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
+        }
     }
 }
 

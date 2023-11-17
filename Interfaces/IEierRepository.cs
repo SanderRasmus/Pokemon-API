@@ -15,6 +15,10 @@ namespace Pokemon.Interfaces
 		ICollection<Pokemons> GetPokemonFraEier(int eierId);
 
 		bool OwnerExists(int eierId);
-	}
+
+        bool CreateEier(Eier eier);
+
+        bool Save();
+    }
 }
 

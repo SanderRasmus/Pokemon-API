@@ -4,6 +4,7 @@ using Pokemon.Interfaces;
 using Pokemon.Models;
 using AutoMapper;
 using Pokemon.Dto;
+using Pokemon.Repository;
 
 namespace Pokemon.Controllers
 {
@@ -50,6 +51,38 @@ namespace Pokemon.Controllers
 
 			return Ok(pokemon);
 		}
+
+		[HttpPost]
+		[ProducesResponseType(204)]
+		[ProducesResponseType(400)]
+		public IActionResult CreateCountry([FromBody] PokemonDto pokemonOpprett)
+		{
+			if (pokemonOpprett == null)
+				return BadRequest(ModelState);
+
+			var pokemon = _pokemonRepository.GetPokemons()
+				.Where(c => c.Navn.Trim().ToUpper() == pokemonOpprett.Navn.TrimEnd().ToUpper())
+				.FirstOrDefault();
+
+			if (pokemon != null)
+			{
+				ModelState.AddModelError("", "Pokemonen finnes allerede!");
+				return StatusCode(422, ModelState);
+
+			}
+
+			if (!ModelState.IsValid)
+				return BadRequest(ModelState);
+
+			var pokemonMap = _mapper.Map<Pokemons>(pokemonOpprett);
+
+			if (!_pokemonRepository.CreatePokemon(pokemonMap))
+			{
+				ModelState.AddModelError("", "Noe gikk galt under lagring");
+				return StatusCode(500, ModelState);
+			}
+
+			return Ok("Pokemonen ble opprettet");
+		}
 	}
 }
-

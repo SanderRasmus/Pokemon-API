@@ -10,7 +10,10 @@ namespace Pokemon.Interfaces
 		Pokemons GetPokemon(string name);
 
 		bool PokemonExists(int pokeId);
-		
-	}
+
+        bool CreatePokemon(Pokemons pokemon);
+
+        bool Save();
+    }
 }
 

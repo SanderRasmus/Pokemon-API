@@ -9,7 +9,8 @@ namespace Pokemon.Helper
 		public MappingProfiles()
 		{
 			CreateMap<Pokemons, PokemonDto>();
-			CreateMap<Kategori, KategoriDto>();
+			CreateMap<PokemonDto, Pokemons>();
+            CreateMap<Kategori, KategoriDto>();
 			CreateMap<KategoriDto, Kategori>();
 			CreateMap<Land, LandDto>();
 			CreateMap<LandDto, Land>();
